@@ -1,7 +1,8 @@
 import random
 import yaml
 import json
-from flask import Flask, redirect, render_template
+from flask import Flask, redirect, render_template, jsonify, request
+import flask
 
 INITIAL_INDEX = 0
 N_INDICES = 5
@@ -17,7 +18,14 @@ def state():
         current_state = random.choice(possible_states)
     else:
         current_state = "unknown"
-    return json.dumps(current_state)
+
+    response = flask.json.dumps(current_state, sort_keys=True, indent=4, separators=(',', ': '))
+
+    # Check if ?refresh is specified for demo, used for demo purposes
+    if 'refresh' in request.args:
+        response = '<meta http-equiv="refresh" content="0.5" />' + response.replace('\n','<br>').replace(" ","&nbsp;")
+
+    return response
 
 
 @app.route('/')

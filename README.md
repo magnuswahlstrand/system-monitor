@@ -9,13 +9,16 @@
 
 # Lessons learnt 
 
+### Reading configuration
+It is much easier to handle missing configuration in data in backend, rather than in the jinja2 templates sida.
+
 ### Really cool graphs
 http://formidable.com/open-source/victory/gallery/animating-circular-progress-bar/
 
 
-
 ### Reading configuration from Python
 ConfigParser, YAML, or JSON
+
 https://stackoverflow.com/questions/19078170/python-how-would-you-save-a-simple-settings-config-file
 
 #### Read all options for a section
