@@ -1,5 +1,5 @@
 options:
-  updateFrequency: 5000
+  updateFrequency: 2000
 states:
 - deploying
 - deploying_complete

@@ -1,5 +1,12 @@
 
 
+
+## Example
+
+![alt text](example.gif "Example of output")
+
+
+
 # Lessons learnt 
 
 ### Really cool graphs
