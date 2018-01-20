@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>fullPage.js A simple Demo</title>
+	<meta name="author" content="Magnus Wahlstrand" />
+	<meta name="description" content="fullPage very simple demo." />
+	<meta name="keywords"  content="fullpage,jquery,demo,simple" />
+	<meta name="Resource-type" content="Document" />
+
+
+	<link rel="stylesheet" type="text/css" href="../jquery.fullPage.css" />
+	<link rel="stylesheet" type="text/css" href="examples.css" />
+
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+
+	<script type="text/javascript" src="../vendors/scrolloverflow.js"></script>
+
+	<script type="text/javascript" src="../jquery.fullPage.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#fullpage').fullpage({
+				anchors: ['deploying', 'deploying_complete', 'testing', 'testing_complete', 'idle'],
+				sectionsColor: ['#7BAABE', 'whitesmoke', '#ccddff'],
+				menu: '#menu',
+				navigation:false,
+
+				css3: true
+			});
+
+
+			$('.moveTo').click(function(e){
+				e.preventDefault();
+
+				var page = $(this).data('page');
+				var index = parseInt($(this).data('page-index'));
+				alert(page + index)
+
+				$.fn.fullpage.moveTo(page, index);
+			});
+		});
+	</script>
+
+</head>
+<body>
+
+
+<ul id="menu">
+	<li data-menuanchor="deploying"><a href="#deploying">Deploying</a></li>
+	<li data-menuanchor="deploying_complete"><a href="#deploying_complete">Deployment Complete</a></li>
+	<li data-menuanchor="testing"><a href="#testing">Running Tests</a></li>
+	<li data-menuanchor="testing_complete"><a href="#testing_complete">Tests Complete</a></li>
+	<li data-menuanchor="idle"><a href="#idle">System Idle</a></li>
+</ul>
+<div id="fullpage">
+	<div class="section active" id="section0">
+	    <div class="slide"><h1>Deploying</h1></div>
+	    <div class="slide"><h1>Deployment complete</h1></div>
+	</div>
+	<div class="section" id="section1">
+	    <div class="slide"><h1>Running tests</h1></div>
+	    <div class="slide"><h1>Tests complete</h1></div>
+	</div>
+	<div class="section" id="section2"><h1>System Idle</h1></div>
+</div>
+
+</body>
+</html>
