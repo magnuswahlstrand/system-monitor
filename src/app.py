@@ -1,6 +1,7 @@
 import random
 import yaml
 import requests
+import time
 from flask import Flask, redirect, render_template, request, json, jsonify
 
 INITIAL_INDEX = 0
@@ -9,24 +10,22 @@ N_INDICES = 5
 
 app = Flask(__name__)
 
-#def error_code():
-#    a.status_code()
-
 
 def get_state():
+    current_index = int(time.time() * 0.3) % 5
+    state = possible_states[current_index]
+#    state = random.choice(possible_states)
 
-    state = random.choice(possible_states)
-
-    if random.randint(0, 1) == 0:
-        raise requests.RequestException("Very serious error, dude")
+#    if random.randint(0, 1) == 0:
+#        raise requests.RequestException("Very serious error, dude")
 
     return state
 
 
 @app.errorhandler(requests.RequestException)
 def handle_invalid_usage(error):
-    print(error.message)
     return error.message, 404
+
 
 @app.route('/state')
 def state():
@@ -37,7 +36,7 @@ def state():
 
     # Check if ?refresh is specified for demo, used for demo purposes
     if 'refresh' in request.args:
-        response = '<meta http-equiv="refresh" content="0.5" />' + response.replace('\n','<br>').replace(" ","&nbsp;")
+        response = '<meta http-equiv="refresh" content="0.5">' + response.replace('\n', '<br>').replace(" ", "&nbsp;")
 
     return response
 

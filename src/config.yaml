@@ -1,9 +1,9 @@
 options:
-  updateFrequency: 2000
+  updateFrequency: 500
 states:
 - deploying:
     text: 'Deploying, mfer'
-    title: 'not my day'
+    title: 'not my dayq'
 
 - deploying_complete
 - testing

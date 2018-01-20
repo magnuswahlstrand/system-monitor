@@ -44,3 +44,5 @@ def handle_invalid_usage(error):
 This is ridiculously cool. Need to be used.
 
 https://www.cssscript.com/demo/touch-enabled-knob-control-pure-javascript-jim-knopf/
+
+https://www.jqueryscript.net/demo/Nice-Touchable-jQuery-Dial-Plugin-Knob/
