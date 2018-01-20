@@ -4,3 +4,4 @@ states:
 - testing
 - testing_complete
 - idle
+#- magnus:  progression

@@ -15,3 +15,9 @@ https://stackoverflow.com/questions/19078170/python-how-would-you-save-a-simple-
 ```
 dict(Config.items('Section'))
 ```
+
+
+# YAML
+```
+print(yaml.dump({'states':STATES}, default_flow_style=False))
+```
