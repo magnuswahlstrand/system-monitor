@@ -39,3 +39,8 @@ print(yaml.dump({'states':STATES}, default_flow_style=False))
 def handle_invalid_usage(error):
     return error.message, 404
 ```
+
+# KNOBS
+This is ridiculously cool. Need to be used.
+
+https://www.cssscript.com/demo/touch-enabled-knob-control-pure-javascript-jim-knopf/
