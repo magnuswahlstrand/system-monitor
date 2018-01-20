@@ -1,0 +1,6 @@
+states:
+- deploying
+- deploying_complete
+- testing
+- testing_complete
+- idle

@@ -1,14 +1,13 @@
 import random
+import yaml
 from flask import Flask
 
 INITIAL_INDEX = 0
 N_INDICES = 5
 
 STATES = ["deploying",
-          "deploying_complete",
-          "testing",
-          "testing_complete",
-          "idle"]
+          "deploying_complete","testing",
+          "testing_complete","idle"]
 
 app = Flask(__name__)
 
@@ -19,4 +18,11 @@ def state():
     return current_state
 
 if __name__ == '__main__':
+
+    # Read configuration from file
+    with open('config.yaml', 'r') as f:
+        configuration = yaml.load(f)
+        for state in configuration['states']:
+            print state
+
     app.run(debug=True)
