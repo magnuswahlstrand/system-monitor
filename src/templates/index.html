@@ -47,7 +47,7 @@
 
 
 			// Change state every 1 seconds
-			setInterval(function(){ changeState() }, 1000);
+			setInterval(function(){ changeState() }, {{ options.updateFrequency if options.updateFrequency else '1000'  }});
 
 
 			$('.moveTo').click(function(e){
@@ -64,7 +64,6 @@
 
 </head>
 <body>
-
 
 <ul id="menu">
 	<li data-menuanchor="deploying"><a href="#deploying">Deploying</a></li>

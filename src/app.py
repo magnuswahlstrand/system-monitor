@@ -13,8 +13,8 @@ app = Flask(__name__)
 @app.route('/state')
 def state():
 
-    if STATES:
-        current_state = random.choice(STATES)
+    if possible_states:
+        current_state = random.choice(possible_states)
     else:
         current_state = "unknown"
     return json.dumps(current_state)
@@ -27,15 +27,17 @@ def home():
 
 @app.route('/ui')
 def ui():
-    return render_template('index.html')
+    return render_template('index.html', options=options)
 
-STATES = None
+possible_states = None
+options = None
 if __name__ == '__main__':
 
     # Read configuration from file
     with open('config.yaml', 'r') as f:
         configuration = yaml.load(f)
-        STATES = configuration['states']
+        possible_states = configuration['states']
+        options = configuration['options']
 
     # Help to generate more advanced yamls
     # print(yaml.dump({'states':STATES}, default_flow_style=False))
