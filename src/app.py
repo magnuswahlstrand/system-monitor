@@ -27,7 +27,30 @@ def home():
 
 @app.route('/ui')
 def ui():
-    return render_template('index.html', options=options)
+    return render_template('index.html', options=options, states=possible_states)
+
+
+# Add metadata to states that only has basic configuration
+def add_metadata(state_info):
+
+    metadata = {}
+
+    # Some metadata is defined
+    if isinstance(state_info, dict):
+        basename = state_info.keys()[0]
+        default_text = basename.title().replace("_", " ")
+
+        metadata['basename'] = basename
+        metadata['title'] = state_info.values()[0].get('title', default_text)
+        metadata['text'] = state_info.values()[0].get('text', default_text)
+    else:
+        basename = state_info
+        default_text = basename.title().replace("_", " ")
+        metadata['basename'] = basename
+        metadata['title'] = default_text
+        metadata['text'] = default_text
+
+    return metadata
 
 possible_states = None
 options = None
@@ -36,10 +59,14 @@ if __name__ == '__main__':
     # Read configuration from file
     with open('config.yaml', 'r') as f:
         configuration = yaml.load(f)
-        possible_states = configuration['states']
-        options = configuration['options']
 
-    # Help to generate more advanced yamls
-    # print(yaml.dump({'states':STATES}, default_flow_style=False))
+        options = configuration['options']
+        possible_states = [add_metadata(state) for state in configuration['states']]
+        print(yaml.dump(possible_states, default_flow_style=False))
+
+
+
+
+
 
     app.run(debug=True)

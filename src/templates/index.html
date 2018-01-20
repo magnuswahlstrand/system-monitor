@@ -26,7 +26,7 @@
 		// Change to page representing system state
 		function changeState() {
 			$.getJSON('http://localhost:5000/state', function(response) {
-				page = response;
+				page = response.basename;
 				index = 0;
 				console.log(page, index);
 				$.fn.fullpage.moveTo(page, index);
@@ -66,11 +66,10 @@
 <body>
 
 <ul id="menu">
-	<li data-menuanchor="deploying"><a href="#deploying">Deploying</a></li>
-	<li data-menuanchor="deploying_complete"><a href="#deploying_complete">Deployment Complete</a></li>
-	<li data-menuanchor="testing"><a href="#testing">Running Tests</a></li>
-	<li data-menuanchor="testing_complete"><a href="#testing_complete">Tests Complete</a></li>
-	<li data-menuanchor="idle"><a href="#idle">System Idle</a></li>
+
+	{% for state in states %}
+		<li data-menuanchor="{{ state.basename }}"><a href="#{{ state.basename }}">{{ state.title }}</a></li>
+	{% endfor %}
 </ul>
 <div id="fullpage">
 	<div class="section active" id="section0"><h1>Deploying</h1></div>
