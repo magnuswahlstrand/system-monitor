@@ -7,6 +7,15 @@
 
 
 
+## Todos
+* Handle local server down
+* Choose python function based on config
+* Add plugin system
+* * Error plugin
+* * Progressive plugin
+* * REST plugin
+* * ElasticPlugin
+
 # Lessons learnt 
 
 ### Reading configuration
