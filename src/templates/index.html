@@ -3,7 +3,7 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>fullPage.js A simple Demo</title>
+	<title>System Monitor {{ version }}</title>
 	<meta name="author" content="Magnus Wahlstrand" />
 	<meta name="description" content="fullPage very simple demo." />
 	<meta name="keywords"  content="fullpage,jquery,demo,simple" />
@@ -12,7 +12,7 @@
 
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery.fullPage.css') }}" />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='examples.css') }}" />
-
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
@@ -26,7 +26,7 @@
 
 		// Change to page representing system state
 		function changeState() {
-			$.getJSON('http://localhost:5000/state', function() {
+			$.getJSON('http://localhost:{{ options.port if options.port else '5000'  }}/state', function() {
 			  console.log("success");
 			})
 			.success(function(response) {
@@ -37,8 +37,17 @@
 			})
 			.error(function(jqXHR, textStatus, errorThrown) {
 
+
+				// Handle the case when the local this local server is shut down for some reason
+				if(jqXHR.status == 0) {
+					errorMsg = "Local server is not responsponding. Please restart it"
+				}
+				else {
+					errorMsg = jqXHR.status + ": " + jqXHR.responseText;
+				}
+
 				// Send error notification to the browser
-				$.notify(jqXHR.status + ": " + jqXHR.responseText,
+				$.notify(errorMsg,
 					{ position: "top center",
 					  arrowSize: 30,
 					  class: "error",

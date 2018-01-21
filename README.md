@@ -8,16 +8,26 @@
 
 
 ## Todos
-* Handle local server down
-* Record new gif
-* Choose python function based on config. [Example how to load module](https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string)
-* Add plugin system
-* * Error plugin
-* * Progressive plugin
-* * REST plugin
-* * ElasticPlugin
+* PLUGIN: REST
+* PLUGIN: ElasticSearch
+* Group pages on same row
+* Document how to add plugins
+* Read custom options in plugins
+* Document how to add custom options to plugins
+* Change URL from options
 
-# Lessons learnt 
+## Done
+* ~~Record new gif~~
+* ~~Choose python function based on config. [Example how to load module](https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string)~~
+* ~~Add plugin system~~
+* ~~Handle local server down~~
+* ~~Change port for local server
+* ~~PLUGIN: Error plugin~~
+* ~~PLUGIN: Progressive plugin~~
+
+
+
+# Lessons learnt (Not user documentation)
 
 ### Reading configuration
 It is much easier to handle missing configuration in data in backend, rather than in the jinja2 templates sida.

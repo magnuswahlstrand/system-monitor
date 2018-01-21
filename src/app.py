@@ -7,7 +7,7 @@ from plugins.builtin_stategetters import *
 import logging
 
 app = Flask(__name__)
-
+VERSION = 0.2
 
 @app.errorhandler(NotImplementedError)
 def handle_not_implemented(error):
@@ -40,7 +40,7 @@ def home():
 
 @app.route('/ui')
 def ui():
-    return render_template('index.html', options=options, states=possible_states)
+    return render_template('index.html', options=options, states=possible_states, version=VERSION)
 
 
 # Add metadata to states that only has basic configuration
