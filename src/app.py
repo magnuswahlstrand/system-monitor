@@ -1,25 +1,10 @@
-import random
+import sys
 import yaml
 import requests
 import time
-from flask import Flask, redirect, render_template, request, json, jsonify
-
-INITIAL_INDEX = 0
-N_INDICES = 5
-
+from flask import Flask, redirect, render_template, request, json
 
 app = Flask(__name__)
-
-
-def get_state():
-    current_index = int(time.time() * 1) % 5
-    state = possible_states[current_index]
-#    state = random.choice(possible_states)
-
-#    if random.randint(0, 1) == 0:
-#        raise requests.RequestException("Very serious error, dude")
-
-    return state
 
 
 @app.errorhandler(requests.RequestException)
@@ -30,7 +15,7 @@ def handle_invalid_usage(error):
 @app.route('/state')
 def state():
 
-    current_state = get_state()
+    current_state = state_getter.get_state()
 
     response = json.dumps(current_state, sort_keys=True, indent=4, separators=(',', ': '))
 
@@ -73,21 +58,54 @@ def add_metadata(state_info):
 
     return metadata
 
-possible_states = None
-options = None
-if __name__ == '__main__':
 
-    # Read configuration from file
+# BaseGetter, should be inherited by custom plugins
+# The method get_states should return any of the states defined in config.yaml
+#
+#
+#
+
+class BaseStateGetter:
+
+    def __init__(self, states, options):
+        self.states = states
+        self.options = options
+
+    def get_state(self):
+        raise NotImplementedError("This method need to be overridden by the baseclass")
+
+
+class AutomaticToggleGetter(BaseStateGetter):
+
+    def get_state(self):
+        current_index = int(time.time() * 1) % 5
+        state = possible_states[current_index]
+    #    state = random.choice(possible_states)
+
+    #    if random.randint(0, 1) == 0:
+    #        raise requests.RequestException("Very serious error, dude")
+
+        return state
+
+
+def read_configuration():
+
     with open('config.yaml', 'r') as f:
         configuration = yaml.load(f)
 
         options = configuration['options']
         possible_states = [add_metadata(state) for state in configuration['states']]
-        print(yaml.dump(possible_states, default_flow_style=False))
+        # print(yaml.dump(possible_states, default_flow_style=False))
+        return possible_states, options
+
+    print("Something went wrong when reading configuration")
+    sys.exit(1)
 
 
+if __name__ == '__main__':
 
-
-
+    # Read configuration from file
+    possible_states, options = read_configuration()
+    state_getter = AutomaticToggleGetter(states=possible_states, options=options)
 
     app.run(debug=True)
