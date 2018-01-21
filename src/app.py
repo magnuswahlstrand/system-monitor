@@ -3,6 +3,7 @@ import yaml
 import requests
 import time
 from flask import Flask, redirect, render_template, request, json
+from plugins.builtin_stategetters import *
 
 app = Flask(__name__)
 
@@ -64,35 +65,6 @@ def add_metadata(state_info):
     return metadata
 
 
-# BaseGetter, should be inherited by custom plugins
-# The method get_states should return any of the states defined in config.yaml
-#
-#
-#
-
-class BaseStateGetter:
-
-    def __init__(self, states, options):
-        self.states = states
-        self.options = options
-
-    def get_state(self):
-        raise NotImplementedError("This method need to be overridden by the baseclass")
-
-
-class AutomaticToggleGetter(BaseStateGetter):
-
-    def get_state(self):
-        current_index = int(time.time() * 1) % 5
-        state = possible_states[current_index]
-    #    state = random.choice(possible_states)
-
-    #    if random.randint(0, 1) == 0:
-    #        raise requests.RequestException("Very serious error, dude")
-
-        return state
-
-
 def read_configuration():
 
     with open('config.yaml', 'r') as f:
@@ -111,6 +83,6 @@ if __name__ == '__main__':
 
     # Read configuration from file
     possible_states, options = read_configuration()
-    state_getter = AutomaticToggleGetter(states=possible_states, options=options)
+    state_getter = BrokenRandomStateGetter(states=possible_states, options=options)
 
     app.run(debug=True)

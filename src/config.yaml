@@ -1,5 +1,5 @@
 options:
-  updateFrequency: 500
+  updateFrequency: 1000
 states:
 - deploying:
     text: 'Deploying, mfer'
