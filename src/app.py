@@ -7,6 +7,11 @@ from flask import Flask, redirect, render_template, request, json
 app = Flask(__name__)
 
 
+@app.errorhandler(NotImplementedError)
+def handle_not_implemented(error):
+    return "The StateGetter plugin used has not implemented get_state() method", 500
+
+
 @app.errorhandler(requests.RequestException)
 def handle_invalid_usage(error):
     return error.message, 404
