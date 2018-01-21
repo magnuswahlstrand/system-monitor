@@ -3,7 +3,7 @@ options:
 states:
 - deploying:
     text: 'Deploying, mfer'
-    title: 'not my dayq'
+    title: 'Deploy'
 
 - deploying_complete
 - testing

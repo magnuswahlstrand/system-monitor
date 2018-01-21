@@ -9,7 +9,8 @@
 
 ## Todos
 * Handle local server down
-* Choose python function based on config
+* Record new gif
+* Choose python function based on config. [Example how to load module](https://stackoverflow.com/questions/3061/calling-a-function-of-a-module-by-using-its-name-a-string)
 * Add plugin system
 * * Error plugin
 * * Progressive plugin

@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 
 def get_state():
-    current_index = int(time.time() * 0.3) % 5
+    current_index = int(time.time() * 1) % 5
     state = possible_states[current_index]
 #    state = random.choice(possible_states)
 
