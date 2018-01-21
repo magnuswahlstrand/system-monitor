@@ -1,5 +1,5 @@
 options:
-  stateGetter: plugins.usermade_stategetter.BoringUserMadeStateGetter
+  stateGetter: plugins.builtin_stategetters.AutomaticToggleGetter
   updateFrequency: 1000
   port: 5000
 states:

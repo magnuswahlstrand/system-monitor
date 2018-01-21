@@ -9,9 +9,37 @@ _Example of **System Monitoring** following a simple test system_
 While the builtin plugins (plugins/builin_stategetters.py), generates a dummy state from the defined states specified in `config.yaml`, the goal of *System Monitor* is to be easily extendable to get the state of **anything** :+1:.
 Please refer to the [Add your own plugin](#guide-add-your-own-plugin) section.
 
+## Basic Usage
 
-## Guide: Add your own plugin
+1. (optional): Use virtual env 
+```bash
+virtualenv venv
+source venv/bin/activate
+pip install -r requirements.txt 
+```
+2. Run start app
+```bash
+python app.py
+```
+3. Go to [localhost:5000](http://localhost:5000) to see something like this
+
+
+![alt text](doc/example.gif "Example of monitoring")
+
+## Change StateGetter
+To change the plugin that parses states, open **config.yaml** and change the `stateGetter` option to one of the following
+```yaml
+options:
+  stateGetter: plugins.builtin_stategetters.AutomaticToggleGetter
+#  stateGetter: plugins.builtin_stategetters.RandomStateGetter
+#  stateGetter: plugins.builtin_stategetters.BrokenRandomStateGetter
+#  stateGetter: plugins.usermade_stategetter.BoringUserMadeStateGetter
+```
+
+## Plugins
+### Add your own plugin
 1. Create a plugin file `usermade_stategetter.py`
+
 ![alt text](doc/new_plugin.png "Path to user made stategetter" )
 
 2. Create a class `BoringUserMadeStateGetter` that inherits `BaseStateGetter` and implements `get_state`. See [plugins/builtin_stategetters.py](plugins/builtin_stategetters.py) for examples.
@@ -34,7 +62,8 @@ options:
 ...
 ```
 
-### Guide: Use custom options for your own plugin
+
+### Custom options in your own plugin
 1. Add the new attribute to your `config.yaml` under options
 
 **config.yaml**
@@ -57,7 +86,7 @@ class BoringUserMadeStateGetter(BaseStateGetter):
         return self.states[fixed_index]
 ```
 
-## Todos
+# Todos
 #### Release 0.3
 * Group pages on same row
 * Read custom options in plugins
