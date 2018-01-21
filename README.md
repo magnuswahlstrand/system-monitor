@@ -10,34 +10,58 @@ While the builtin plugins (plugins/builin_stategetters.py), generates a dummy st
 Please refer to the [Add your own plugin](#guide-add-your-own-plugin) section.
 
 
-
 ## Guide: Add your own plugin
-
-1. Output any of the states specified in the config.yaml
-2.
-
-
-### Create a plugin file
-
+1. Create a plugin file `usermade_stategetter.py`
 ![alt text](doc/new_plugin.png "Path to user made stategetter" )
 
+2. Create a class `BoringUserMadeStateGetter` that inherits `BaseStateGetter` and implements `get_state`. See [plugins/builtin_stategetters.py](plugins/builtin_stategetters.py) for examples.
 
-In *my_stategetter.py*
+**plugins/usermade_stategetter.py**
+```python
+from builtin_stategetters import BaseStateGetter
+# Simply shows the second state all the time, quite boring
+class BoringUserMadeStateGetter(BaseStateGetter):
+
+    def get_state(self):
+        return self.states[1]
+```
+3. Make *System Monitor* use the new plugin by updating the `config.yaml` to point to your plugin.
+
+**config.yaml**
+```yaml
+options:
+  stateGetter: plugins.usermade_stategetter.BoringUserMadeStateGetter
+...
 ```
 
+### Guide: Use custom options for your own plugin
+1. Add the new attribute to your `config.yaml` under options
+
+**config.yaml**
+```yaml
+options:
+  stateGetter:      plugins.usermade_stategetter.BoringUserMadeStateGetter
+  YOUR_ATTRIBUTE:   2
+...
 ```
+2. Use the attribute `self.option['YOUR_ATTRIBUTE']` to access it in your plugin
 
-### Use the Use the plugin
-### Specify the
+**plugins/usermade_stategetter.py**
+```python
+from builtin_stategetters import BaseStateGetter
+# Simply shows the second state all the time, quite boring
+class BoringUserMadeStateGetter(BaseStateGetter):
 
+    def get_state(self):
+        fixed_index = int(self.options['YOUR_ATTRIBUTE'])  # Note: need to convert from string to int
+        return self.states[fixed_index]
+```
 
 ## Todos
 #### Release 0.3
 * Group pages on same row
-* Document how to add plugins
 * Read custom options in plugins
 * Document how to add custom options to plugins
-* Move app files from src to root folder
 
 #### Release 0.x
 * PLUGIN: REST
@@ -46,6 +70,8 @@ In *my_stategetter.py*
 
 ## Done
 #### Release 0.3
+* Document how to add plugins
+* Move app files from src to root folder
 
 #### Release 0.2
 * ~~Record new gif~~

@@ -1,0 +1,12 @@
+options:
+  stateGetter: plugins.usermade_stategetter.BoringUserMadeStateGetter
+  updateFrequency: 1000
+  port: 5000
+states:
+- deploying:
+    text: Deploying, mfer'
+    title: Deploy
+- deploying_complete
+- testing
+- testing_complete
+- idle

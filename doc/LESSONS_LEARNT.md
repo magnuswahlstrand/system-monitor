@@ -13,19 +13,19 @@ ConfigParser, YAML, or JSON
 https://stackoverflow.com/questions/19078170/python-how-would-you-save-a-simple-settings-config-file
 
 #### Read all options for a section
-```
+```python
 dict(Config.items('Section'))
 ```
 
 
 # YAML
-```
+```python
 print(yaml.dump({'states':STATES}, default_flow_style=False))
 ```
 
 
 # Handling exceptions in Flask (nice!)
-```
+```python
 @app.errorhandler(requests.RequestException)
 def handle_invalid_usage(error):
     return error.message, 404
