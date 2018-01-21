@@ -1,9 +1,10 @@
 import sys
 import yaml
 import requests
-import time
+import importlib
 from flask import Flask, redirect, render_template, request, json
 from plugins.builtin_stategetters import *
+import logging
 
 app = Flask(__name__)
 
@@ -73,16 +74,52 @@ def read_configuration():
         options = configuration['options']
         possible_states = [add_metadata(state) for state in configuration['states']]
         # print(yaml.dump(possible_states, default_flow_style=False))
+
+        # Verify mandatory fields exist in options
+        if 'stateGetter' not in options:
+            raise KeyError(""" Mandatory option 'stateGetter' missing in 'config.yaml'.
+
+Example:
+
+options:
+  stateGetter: plugins.builtin_stategetters.RandomStateGetter
+""")
+
         return possible_states, options
 
-    print("Something went wrong when reading configuration")
-    sys.exit(1)
+
+def load_getter_class(options):
+    state_getter_class = options['stateGetter']
+    mod_name, class_name = state_getter_class.rsplit('.', 1)
+    mod = importlib.import_module(mod_name)
+    getter_class = getattr(mod, class_name)
+    return getter_class
 
 
 if __name__ == '__main__':
 
     # Read configuration from file
-    possible_states, options = read_configuration()
-    state_getter = BrokenRandomStateGetter(states=possible_states, options=options)
+    try:
+        possible_states, options = read_configuration()
+    except KeyError as e:
+        logging.error(e)
+        sys.exit(1)
+
+    # Get state getter class from config file
+
+    try:
+        StateGetter = load_getter_class(options)
+    except ImportError as e:
+        error_msg = ". '%s' doesn't exist." % options['stateGetter'].rsplit(".", 1)[0]
+        logging.error(e.message + error_msg)
+        sys.exit(1)
+    except AttributeError as e:
+        error_msg = "Class '%s' doesn't exist." % options['stateGetter'].split(".")[-1]
+        logging.error(error_msg)
+        sys.exit(1)
+
+    state_getter = StateGetter(states=possible_states, options=options)
+
+    print(state_getter)
 
     app.run(debug=True)

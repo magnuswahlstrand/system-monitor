@@ -1,5 +1,6 @@
 options:
   updateFrequency: 1000
+  stateGetter: plugins.builtin_stategetters.AutomaticToggleGetter
 states:
 - deploying:
     text: 'Deploying, mfer'
