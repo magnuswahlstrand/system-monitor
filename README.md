@@ -87,10 +87,8 @@ class BoringUserMadeStateGetter(BaseStateGetter):
 ```
 
 # Todos
-#### Release 0.3
+#### Release 0.4
 * Group pages on same row
-* Read custom options in plugins
-* Document how to add custom options to plugins
 
 #### Release 0.x
 * PLUGIN: REST
@@ -99,8 +97,10 @@ class BoringUserMadeStateGetter(BaseStateGetter):
 
 ## Done
 #### Release 0.3
-* Document how to add plugins
-* Move app files from src to root folder
+* ~~Read custom options in plugins~
+* ~~Document how to add plugins~
+* ~~Move app files from src to root folder~
+* ~~Document how to add custom options to plugins~
 
 #### Release 0.2
 * ~~Record new gif~~
