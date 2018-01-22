@@ -6,7 +6,9 @@ states:
 - deploying:
     text: Deploying, mfer'
     title: Deploy
-- deploying_complete
-- testing
+    group: 'deploying'
+- deploying_complete:
+    group: 'deploying'
 - testing_complete
+- testing
 - idle

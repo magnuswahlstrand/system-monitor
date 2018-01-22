@@ -6,22 +6,22 @@ _Example of **System Monitoring** following a simple test system_
 
 ![alt text](doc/example.gif "Example of monitoring")
 
-While the builtin plugins (plugins/builin_stategetters.py), generates a dummy state from the defined states specified in `config.yaml`, the goal of *System Monitor* is to be easily extendable to get the state of **anything** :+1:.
-Please refer to the [Add your own plugin](#guide-add-your-own-plugin) section.
+While the builtin plugins [plugins/builin_stategetters.py](plugins/builtin_stategetters.py), generates a dummy state from the defined states specified in `config.yaml`, the goal of *System Monitor* is to be easily extendable to get the state of **anything** :+1:.
+Please refer to the [Add your own plugin](#add-your-own-plugin) section.
 
 ## Basic Usage
 
-1. (optional): Use virtual env 
+(optional): Use virtual env 
 ```bash
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt 
 ```
-2. Run start app
+Run start app
 ```bash
 python app.py
 ```
-3. Go to [localhost:5000](http://localhost:5000) to see something like this
+Go to [localhost:5000](http://localhost:5000) to see something like this
 
 
 ![alt text](doc/example.gif "Example of monitoring")
@@ -38,11 +38,12 @@ options:
 
 ## Plugins
 ### Add your own plugin
-1. Create a plugin file `usermade_stategetter.py`
+Create a plugin file `usermade_stategetter.py`
 
 ![alt text](doc/new_plugin.png "Path to user made stategetter" )
 
-2. Create a class `BoringUserMadeStateGetter` that inherits `BaseStateGetter` and implements `get_state`. See [plugins/builtin_stategetters.py](plugins/builtin_stategetters.py) for examples.
+
+Create a class `BoringUserMadeStateGetter` that inherits `BaseStateGetter` and implements `get_state`. See [plugins/builtin_stategetters.py](plugins/builtin_stategetters.py) for examples.
 
 **plugins/usermade_stategetter.py**
 ```python
@@ -53,7 +54,8 @@ class BoringUserMadeStateGetter(BaseStateGetter):
     def get_state(self):
         return self.states[1]
 ```
-3. Make *System Monitor* use the new plugin by updating the `config.yaml` to point to your plugin.
+
+Make *System Monitor* use the new plugin by updating the `config.yaml` to point to your plugin.
 
 **config.yaml**
 ```yaml
@@ -64,7 +66,7 @@ options:
 
 
 ### Custom options in your own plugin
-1. Add the new attribute to your `config.yaml` under options
+Add the new attribute to your `config.yaml` under options
 
 **config.yaml**
 ```yaml
@@ -73,7 +75,7 @@ options:
   YOUR_ATTRIBUTE:   2
 ...
 ```
-2. Use the attribute `self.option['YOUR_ATTRIBUTE']` to access it in your plugin
+Use the attribute `self.option['YOUR_ATTRIBUTE']` to access it in your plugin
 
 **plugins/usermade_stategetter.py**
 ```python

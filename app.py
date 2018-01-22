@@ -4,6 +4,7 @@ import requests
 import importlib
 from flask import Flask, redirect, render_template, request, json
 import logging
+from collections import Counter, OrderedDict
 
 app = Flask(__name__)
 VERSION = 0.3
@@ -40,11 +41,11 @@ def home():
 
 @app.route('/ui')
 def ui():
-    return render_template('index.html', options=options, states=possible_states, version=VERSION)
+    return render_template('index.html', options=options, sections=ui_sections, version=VERSION)
 
 
 # Add metadata to states that only has basic configuration
-def add_metadata(state_info):
+def add_metadata(state_info, group_counter):
 
     metadata = {}
 
@@ -56,13 +57,21 @@ def add_metadata(state_info):
         metadata['basename'] = basename
         metadata['title'] = state_info.values()[0].get('title', default_text)
         metadata['text'] = state_info.values()[0].get('text', default_text)
+
+        # Use group if specified, otherwise basename
+        group = state_info.values()[0].get('group', basename)
+
     else:
         basename = state_info
         default_text = basename.title().replace("_", " ")
         metadata['basename'] = basename
         metadata['title'] = default_text
         metadata['text'] = default_text
+        group = basename
 
+    metadata['index'] = group_counter[group]
+    metadata['group'] = group
+    group_counter[group] += 1
     return metadata
 
 
@@ -72,8 +81,20 @@ def read_configuration():
         configuration = yaml.load(f)
 
         options = configuration['options']
-        possible_states = [add_metadata(state) for state in configuration['states']]
-        # print(yaml.dump(possible_states, default_flow_style=False))
+
+        group_counter = Counter()
+        possible_states = [add_metadata(state, group_counter) for state in configuration['states']]
+
+        ui_sections = []
+        # Get unique groups
+        for group in OrderedDict.fromkeys([state['group'] for state in possible_states]):
+
+            # Get slides in section
+            ui_sections.append({
+                'group': group,
+                'title': group.title(),
+                'slides': [slide_metadata for slide_metadata in possible_states if slide_metadata['group'] == group]
+            })
 
         # Verify mandatory fields exist in options
         if 'stateGetter' not in options:
@@ -85,7 +106,8 @@ options:
   stateGetter: plugins.builtin_stategetters.RandomStateGetter
 """)
 
-        return possible_states, options
+        return possible_states, ui_sections, options
+
 
 
 def load_getter_class(options):
@@ -100,7 +122,7 @@ if __name__ == '__main__':
 
     # Read configuration from file
     try:
-        possible_states, options = read_configuration()
+        possible_states, ui_sections, options = read_configuration()
     except KeyError as e:
         logging.error(e)
         sys.exit(1)
@@ -118,5 +140,9 @@ if __name__ == '__main__':
         logging.error(error_msg)
         sys.exit(1)
 
+    for sec in ui_sections:
+        print sec
+
+    # Nest possible_states
     state_getter = StateGetter(states=possible_states, options=options)
     app.run(debug=True)

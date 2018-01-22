@@ -19,7 +19,7 @@ class BaseStateGetter(object):
 class AutomaticToggleGetter(BaseStateGetter):
 
     def get_state(self):
-        current_index = int(time.time()) % len(self.states)
+        current_index = int(time.time()*0.2) % len(self.states)
         state = self.states[current_index]
         return state
 
