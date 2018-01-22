@@ -109,7 +109,6 @@ options:
         return possible_states, ui_sections, options
 
 
-
 def load_getter_class(options):
     state_getter_class = options['stateGetter']
     mod_name, class_name = state_getter_class.rsplit('.', 1)
@@ -139,9 +138,6 @@ if __name__ == '__main__':
         error_msg = "Class '%s' doesn't exist." % options['stateGetter'].split(".")[-1]
         logging.error(error_msg)
         sys.exit(1)
-
-    for sec in ui_sections:
-        print sec
 
     # Nest possible_states
     state_getter = StateGetter(states=possible_states, options=options)

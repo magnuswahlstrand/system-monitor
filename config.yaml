@@ -9,6 +9,6 @@ states:
     group: 'deploying'
 - deploying_complete:
     group: 'deploying'
-- testing_complete
 - testing
+- testing_complete
 - idle
